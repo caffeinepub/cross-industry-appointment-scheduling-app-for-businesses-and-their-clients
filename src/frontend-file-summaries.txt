@@ -1,0 +1,23 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, authentication flow, and route definitions for dashboard and public booking pages.",
+  "frontend/src/components/AppHeader.tsx": "Application header component displaying logo, user profile name, and logout button with conditional rendering for public booking pages.",
+  "frontend/src/pages/LandingSignInPage.tsx": "Landing page with hero illustration, feature highlights, and Internet Identity sign-in functionality.",
+  "frontend/src/pages/OnboardingPage.tsx": "First-time user onboarding form collecting user name, business name, and timezone to create business profile.",
+  "frontend/src/pages/dashboard/DashboardLayout.tsx": "Dashboard layout with navigation tabs for Services, Clients, Availability, and Appointments sections.",
+  "frontend/src/pages/dashboard/ServicesPage.tsx": "Services management page with table view and dialog for adding new services with name and duration, now with proper Settings icon import.",
+  "frontend/src/pages/dashboard/ClientsPage.tsx": "Clients management page with table view and dialog for adding clients with name and optional contact information.",
+  "frontend/src/pages/dashboard/AvailabilityPage.tsx": "Weekly availability editor allowing business owners to set working hours for each day of the week.",
+  "frontend/src/pages/dashboard/AppointmentsPage.tsx": "Appointments view displaying upcoming and past appointments with client, service, and status information.",
+  "frontend/src/pages/PublicBookingPage.tsx": "Public-facing booking page where clients can select services, choose date/time, enter contact details, and confirm appointments.",
+  "frontend/src/hooks/useCurrentUserProfile.ts": "React Query hooks for fetching and saving user profile with proper loading state management to prevent flash.",
+  "frontend/src/hooks/useBusinessId.ts": "Helper hook deriving business ID from authenticated user's Internet Identity principal.",
+  "frontend/src/hooks/queries/useBusinessProfile.ts": "React Query hooks for fetching business profile and creating new businesses.",
+  "frontend/src/hooks/queries/useServices.ts": "React Query hooks for fetching all services and adding new services with automatic cache invalidation.",
+  "frontend/src/hooks/queries/useClients.ts": "React Query hooks for fetching all clients and adding new clients with automatic cache invalidation.",
+  "frontend/src/hooks/queries/useAvailability.ts": "React Query hooks for fetching and setting business availability/working hours.",
+  "frontend/src/hooks/queries/useAppointments.ts": "React Query hooks for fetching appointments and creating public bookings with cache invalidation.",
+  "frontend/src/utils/dateTime.ts": "Utility functions for formatting appointment dates and times and converting between Date objects and bigint timestamps.",
+  "frontend/src/utils/errorMessages.ts": "Centralized error message handler converting backend errors into user-friendly messages.",
+  "frontend/src/index.css": "Global styles with OKLCH color system using teal/cyan primary colors (avoiding blue/purple) for both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom color tokens, Inter font family, and extended design system utilities."
+}

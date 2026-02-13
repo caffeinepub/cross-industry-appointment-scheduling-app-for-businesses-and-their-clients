@@ -1,0 +1,176 @@
+{
+  "kind": "build_request",
+  "title": "Cross-industry appointment scheduling app for businesses and their clients",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement core backend data models and APIs for a multi-tenant appointment scheduling system where each business is isolated by owner identity (Internet Identity principal). Include entities and operations for: Business profile (name, timezone), Services (name, duration, price optional), Staff (optional), Working hours/availability rules, Clients (name, phone/email optional), and Appointments (service, staff optional, client, start/end, status).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Quero um aplicativo para agendamento para todos nichos que precisam fazer agendamento para seus clientes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes Candid methods to create/read/update/delete: business profile, services, availability rules, clients, and appointments.",
+        "All reads/writes are scoped to the authenticated owner principal so one business cannot access another business’s data.",
+        "Appointments store start and end timestamps (or start + duration) and a status (e.g., booked/cancelled)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add backend validation to prevent double-booking and to ensure bookings respect business availability rules (working hours). Validation must run on appointment creation and on reschedule.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "aplicativo para agendamento"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Creating or rescheduling an appointment fails with a clear error when the requested time overlaps an existing booked appointment for the same staff member (or business if staff is not used).",
+        "Creating or rescheduling an appointment fails when the requested time is outside configured working hours.",
+        "Cancelled appointments do not block new bookings for the same slot."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create a frontend authentication and onboarding flow using Internet Identity that lets a business owner sign in, create their business profile (at minimum: business name and timezone), and proceed to the dashboard.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "agendamento ... para seus clientes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in and sign out using Internet Identity.",
+        "On first sign-in, the UI prompts for business name and timezone and saves it to the backend.",
+        "After onboarding, the user lands on a dashboard view without errors."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build an owner dashboard UI for managing Services, Availability, Clients, and Appointments. Provide CRUD screens for Services and Clients, an Availability editor (weekly working hours), and an Appointments view (list + calendar-like view).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "aplicativo para agendamento para todos nichos"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Services screen supports add/edit/delete with at least: name and duration.",
+        "Availability screen supports setting weekly working hours per day (open/close or closed).",
+        "Clients screen supports add/edit/delete with at least: name and optional contact fields.",
+        "Appointments screen shows upcoming appointments and allows cancellation and rescheduling."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement a public booking flow that a business owner can share as a link (public page). The public page must allow a client to select a service, pick an available time slot, enter their details, and confirm the booking.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "agendamento ... para seus clientes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A public booking page exists that is specific to a business (e.g., via route param).",
+        "The public flow shows only available slots (excluding already-booked times and outside working hours).",
+        "Submitting the booking creates an appointment in the backend and shows a confirmation state to the client."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add frontend data fetching/mutations using React Query for all backend resources (profile, services, availability, clients, appointments), including loading states, empty states, error messages, and optimistic or refetch-on-success behavior where appropriate.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All main screens display a clear loading state while fetching.",
+        "Errors from backend validation (e.g., double-booking) are shown as user-readable messages.",
+        "After successful create/update/delete actions, the affected lists/views update without requiring a manual page refresh."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Establish a coherent, distinctive visual theme (colors, typography, spacing, components) suitable for a professional scheduling product and apply it consistently across all pages. Do not use a blue/purple primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All primary buttons, forms, headings, and page layouts follow a consistent design system.",
+        "Primary palette avoids blue/purple as the main brand colors.",
+        "UI looks consistent across dashboard and public booking flow."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Generate and include required static image assets (logo and a simple hero illustration) and render them in the app UI from frontend/public/assets/generated (no backend image serving).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated image files exist under frontend/public/assets/generated with the specified filenames.",
+        "The logo is displayed in the app header/navigation and the hero illustration is used on the landing/sign-in screen (or a marketing/intro section).",
+        "Images are loaded as static assets from the frontend (not fetched from the backend)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use Motoko in a single backend actor (no additional backend services).",
+    "Do not modify any files under frontend/src/components/ui or any paths listed as immutable in SYSTEM_CONTEXT.",
+    "Use English for any user-facing text (labels, buttons, error messages)."
+  ],
+  "nonGoals": [
+    "Payment processing or subscriptions.",
+    "SMS, email, or push notification reminders.",
+    "Third-party authentication providers other than Internet Identity.",
+    "Real-time updates (WebSockets/live collaboration).",
+    "Complex resource scheduling features like equipment rooms, deposits, or multi-location chains unless explicitly requested later."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Modern minimalist logo mark with a calendar and check motif, flat design (app-logo.dim_512x512.png)",
+      "Warm, professional hero illustration featuring a calendar and appointment card elements in a clean vector style (hero-illustration.dim_1600x900.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [
+      "Build a cross-industry appointment scheduling app for businesses to manage client bookings."
+    ],
+    "goalsToRemove": [],
+    "preferencesToAdd": [
+      "Use English for all user-facing UI text."
+    ],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-12T21:14:54.342Z",
+  "summary": "Diff adds a Motoko backend actor with core type definitions plus a custom access-control/user-profile layer, and adds a React (TanStack Router + React Query) frontend with Internet Identity login, a dashboard shell, and initial Services/Clients/Availability/Appointments pages. However, key requested backend CRUD APIs, booking validation, business-profile onboarding, full CRUD in UI, public booking slot availability, and required generated image assets are not evidenced in the provided diff summary.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Backend CRUD Candid methods for business profile, services, availability rules, clients, and appointments; scoped by authenticated owner principal for multi-tenant isolation.",
+      "reason": "backend/main.mo excerpt shows type definitions and user-profile queries/mutations, but no evidence of the required create/read/update/delete methods for business profile/services/clients/appointments or owner-scoped authorization for those entities.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Backend validation to prevent double-booking and enforce working hours on create and reschedule; cancelled appointments do not block.",
+      "reason": "No evidence in the shown backend code of overlap checks, availability-window checks, or reschedule/cancel logic. Only types/state scaffolding are visible.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/queries/useAppointments.ts"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Frontend onboarding to create business profile (business name and timezone) on first sign-in and then proceed to dashboard.",
+      "reason": "Routing logic checks for missing 'current user profile' (getCallerUserProfile) and shows OnboardingPage, but there is no evidence that onboarding creates/saves a BusinessProfile (name/timezone) to the backend; the hooks shown include useCreateBusiness but it is not evidenced as used by onboarding, and OnboardingPage content is not present in the diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/hooks/queries/useBusinessProfile.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Owner dashboard UI with CRUD for Services and Clients, Availability editor for weekly working hours, and Appointments view with cancellation and rescheduling plus list + calendar-like view.",
+      "reason": "ServicesPage and ClientsPage evidence only 'add' flows (no edit/delete shown). AvailabilityPage appears to edit a weekly schedule locally but persists via setAvailability for a single Availability object per day in a loop (no evidence of reading/writing full weekly rules set or closed days persistence). AppointmentsPage shows listing/upcoming, but no evidence of cancel/reschedule actions or a calendar-like view.",
+      "evidence": [
+        "frontend/src/pages/dashboard/ServicesPage.tsx",
+        "frontend/src/pages/dashboard/ClientsPage.tsx",
+        "frontend/src/pages/dashboard/AvailabilityPage.tsx",
+        "frontend/src/pages/dashboard/AppointmentsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Public booking flow via business-specific link: select service, pick available slot (excluding booked/outside hours), enter details, confirm; creates appointment and shows confirmation.",
+      "reason": "Route '/book/$businessId' exists and a mutation hook bookPublic is present, but no evidence is provided for the PublicBookingPage UI, available-slot computation, or confirmation state.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/queries/useAppointments.ts"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "React Query fetching/mutations for all backend resources (profile, services, availability, clients, appointments) with loading/empty/error states and refetch/optimistic updates.",
+      "reason": "Hooks exist for services/clients/availability/appointments and a business profile query/mutation, but there is no evidence for update/delete mutations (services/clients), appointment cancellation/reschedule mutations, or consistent user-readable surfacing of backend validation errors in booking/reschedule flows (public booking UI not shown).",
+      "evidence": [
+        "frontend/src/hooks/queries/useServices.ts",
+        "frontend/src/hooks/queries/useClients.ts",
+        "frontend/src/hooks/queries/useAvailability.ts",
+        "frontend/src/hooks/queries/useAppointments.ts",
+        "frontend/src/pages/dashboard/ServicesPage.tsx",
+        "frontend/src/pages/dashboard/ClientsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Generated static image assets under frontend/public/assets/generated with specified filenames; logo in header and hero illustration on landing/sign-in screen.",
+      "reason": "AppHeader references the logo path, but no image files are evidenced in the diff summary, and LandingSignInPage excerpt contains no hero illustration usage (only icons).",
+      "evidence": [
+        "frontend/src/components/AppHeader.tsx",
+        "frontend/src/pages/LandingSignInPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Custom access-control system with admin secret initialization and user-role permission checks (e.g., _initializeAccessControlWithSecret, permissions #user, admin checks).",
+      "reason": "BuildRequest requires owner isolation by principal but does not request an admin-secret initialization flow or a separate access-control subsystem; this appears to be additional, unrequested functionality.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Separate 'UserProfile' concept and related backend APIs (getCallerUserProfile/saveCallerUserProfile) used to gate onboarding.",
+      "reason": "BuildRequest onboarding is explicitly about creating a BusinessProfile (business name/timezone). A separate user profile entity is not requested and may displace the required business-profile onboarding behavior.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Use of a 'caffeineAdminToken' URL parameter to initialize backend access control from the frontend.",
+      "reason": "Not requested in the BuildRequest and introduces an additional authentication/authorization mechanism beyond Internet Identity.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/utils/urlParams (referenced)"
+      ]
+    }
+  ],
+  "confidence": 0.68,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/hooks/queries/useAppointments.ts",
+    "frontend/src/hooks/queries/useAvailability.ts",
+    "frontend/src/hooks/queries/useBusinessProfile.ts",
+    "frontend/src/hooks/queries/useClients.ts",
+    "frontend/src/hooks/queries/useServices.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useBusinessId.ts",
+    "frontend/src/hooks/useCurrentUserProfile.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/LandingSignInPage.tsx",
+    "frontend/src/pages/OnboardingPage.tsx",
+    "frontend/src/pages/PublicBookingPage.tsx",
+    "frontend/src/pages/dashboard/AppointmentsPage.tsx",
+    "frontend/src/pages/dashboard/AvailabilityPage.tsx",
+    "frontend/src/pages/dashboard/ClientsPage.tsx",
+    "frontend/src/pages/dashboard/DashboardLayout.tsx",
+    "frontend/src/pages/dashboard/ServicesPage.tsx",
+    "frontend/src/utils/dateTime.ts",
+    "frontend/src/utils/errorMessages.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

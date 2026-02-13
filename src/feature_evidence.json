@@ -1,0 +1,141 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-frontend-authentication-and-onboarding-flow-using-internet-identity-that-lets-a-business-owner-sign-in-create-their-business-profile-at-minimum-business-name-and-timezone-and-proceed-to-the-dashboard",
+      "featureTitle": "Create a frontend authentication and onboarding flow using Internet Identity that lets a business owner sign in, create their business profile (at minimum: business name and timezone), and proceed to the dashboard.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppHeader.tsx",
+        "frontend/src/hooks/useBusinessId.ts",
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/pages/LandingSignInPage.tsx",
+        "frontend/src/pages/OnboardingPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-owner-dashboard-ui-for-managing-services-availability-clients-and-appointments-provide-crud-screens-for-services-and-clients-an-availability-editor-weekly-working-hours-and-an-appointments-view-list-calendar-like-view",
+      "featureTitle": "Build an owner dashboard UI for managing Services, Availability, Clients, and Appointments. Provide CRUD screens for Services and Clients, an Availability editor (weekly working hours), and an Appointments view (list + calendar-like view).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/dashboard/AppointmentsPage.tsx",
+        "frontend/src/pages/dashboard/AvailabilityPage.tsx",
+        "frontend/src/pages/dashboard/ClientsPage.tsx",
+        "frontend/src/pages/dashboard/DashboardLayout.tsx",
+        "frontend/src/pages/dashboard/ServicesPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-public-booking-flow-that-a-business-owner-can-share-as-a-link-public-page-the-public-page-must-allow-a-client-to-select-a-service-pick-an-available-time-slot-enter-their-details-and-confirm-the-booking",
+      "featureTitle": "Implement a public booking flow that a business owner can share as a link (public page). The public page must allow a client to select a service, pick an available time slot, enter their details, and confirm the booking.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/PublicBookingPage.tsx",
+        "frontend/src/utils/dateTime.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-frontend-data-fetching-mutations-using-react-query-for-all-backend-resources-profile-services-availability-clients-appointments-including-loading-states-empty-states-error-messages-and-optimistic-or-refetch-on-success-behavior-where-appropriate",
+      "featureTitle": "Add frontend data fetching/mutations using React Query for all backend resources (profile, services, availability, clients, appointments), including loading states, empty states, error messages, and optimistic or refetch-on-success behavior where appropriate.",
+      "files": [
+        "frontend/src/hooks/queries/useAppointments.ts",
+        "frontend/src/hooks/queries/useAvailability.ts",
+        "frontend/src/hooks/queries/useBusinessProfile.ts",
+        "frontend/src/hooks/queries/useClients.ts",
+        "frontend/src/hooks/queries/useServices.ts",
+        "frontend/src/main.tsx",
+        "frontend/src/utils/errorMessages.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-establish-a-coherent-distinctive-visual-theme-colors-typography-spacing-components-suitable-for-a-professional-scheduling-product-and-apply-it-consistently-across-all-pages-do-not-use-a-blue-purple-primary-palette",
+      "featureTitle": "Establish a coherent, distinctive visual theme (colors, typography, spacing, components) suitable for a professional scheduling product and apply it consistently across all pages. Do not use a blue/purple primary palette.",
+      "files": [
+        "frontend/src/components/AppHeader.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/LandingSignInPage.tsx",
+        "frontend/src/pages/PublicBookingPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-required-static-image-assets-logo-and-a-simple-hero-illustration-and-render-them-in-the-app-ui-from-frontend-public-assets-generated-no-backend-image-serving",
+      "featureTitle": "Generate and include required static image assets (logo and a simple hero illustration) and render them in the app UI from frontend/public/assets/generated (no backend image serving).",
+      "files": [
+        "frontend/src/components/AppHeader.tsx",
+        "frontend/src/pages/LandingSignInPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

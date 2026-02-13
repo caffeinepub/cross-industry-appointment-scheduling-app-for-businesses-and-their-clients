@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build an appointment scheduling app usable across multiple business niches to manage client bookings.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Modern minimalist logo mark with a calendar and check motif, flat design (app-logo.dim_512x512.png)\n- Warm, professional hero illustration featuring a calendar and appointment card elements in a clean vector style (hero-illustration.dim_1600x900.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-frontend-authentication-and-onboarding-flow-using-internet-identity-that-lets-a-business-owner-sign-in-create-their-business-profile-at-minimum-business-name-and-timezone-and-proceed-to-the-dashboard",
+      "title": "Create a frontend authentication and onboarding flow using Internet Identity that lets a business owner sign in, create their business profile (at minimum: business name and timezone), and proceed to the dashboard.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-owner-dashboard-ui-for-managing-services-availability-clients-and-appointments-provide-crud-screens-for-services-and-clients-an-availability-editor-weekly-working-hours-and-an-appointments-view-list-calendar-like-view",
+      "title": "Build an owner dashboard UI for managing Services, Availability, Clients, and Appointments. Provide CRUD screens for Services and Clients, an Availability editor (weekly working hours), and an Appointments view (list + calendar-like view).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-public-booking-flow-that-a-business-owner-can-share-as-a-link-public-page-the-public-page-must-allow-a-client-to-select-a-service-pick-an-available-time-slot-enter-their-details-and-confirm-the-booking",
+      "title": "Implement a public booking flow that a business owner can share as a link (public page). The public page must allow a client to select a service, pick an available time slot, enter their details, and confirm the booking.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-frontend-data-fetching-mutations-using-react-query-for-all-backend-resources-profile-services-availability-clients-appointments-including-loading-states-empty-states-error-messages-and-optimistic-or-refetch-on-success-behavior-where-appropriate",
+      "title": "Add frontend data fetching/mutations using React Query for all backend resources (profile, services, availability, clients, appointments), including loading states, empty states, error messages, and optimistic or refetch-on-success behavior where appropriate.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-establish-a-coherent-distinctive-visual-theme-colors-typography-spacing-components-suitable-for-a-professional-scheduling-product-and-apply-it-consistently-across-all-pages-do-not-use-a-blue-purple-primary-palette",
+      "title": "Establish a coherent, distinctive visual theme (colors, typography, spacing, components) suitable for a professional scheduling product and apply it consistently across all pages. Do not use a blue/purple primary palette.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-required-static-image-assets-logo-and-a-simple-hero-illustration-and-render-them-in-the-app-ui-from-frontend-public-assets-generated-no-backend-image-serving",
+      "title": "Generate and include required static image assets (logo and a simple hero illustration) and render them in the app UI from frontend/public/assets/generated (no backend image serving).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a cross-industry appointment scheduling application for businesses to schedule clients",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Implement core backend data models and APIs for a multi-tenant appointment scheduling system where each business is isolated by owner identity (Internet Identity principal). Include entities and operations for: Business profile (name, timezone), Services (name, duration, price optional), Staff (optional), Working hours/availability rules, Clients (name, phone/email optional), and Appointments (service, staff optional, client, start/end, status).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Add backend validation to prevent double-booking and to ensure bookings respect business availability rules (working hours). Validation must run on appointment creation and on reschedule.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Cross-industry appointment scheduling app for businesses and their clients",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

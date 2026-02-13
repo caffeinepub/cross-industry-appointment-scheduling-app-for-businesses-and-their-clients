@@ -1,0 +1,224 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Cross-industry appointment scheduling (frontend)",
+  "requirements": [
+    {
+      "id": "REQ-3",
+      "summary": "Internet Identity authentication + first-time onboarding to create business profile and enter dashboard.",
+      "acceptanceCriteria": [
+        "User can sign in and sign out using Internet Identity.",
+        "On first sign-in, the UI prompts for business name and timezone and saves it to the backend.",
+        "After onboarding, the user lands on a dashboard view without errors."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell and routing that supports: signed-out landing/sign-in, onboarding, and authenticated dashboard. Use the selected authorization component’s frontend guidance (Internet Identity + profile setup gating) to ensure users must be logged in before seeing owner data. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingSignInPage.tsx",
+          "operation": "create",
+          "description": "Create a landing/sign-in page that shows the hero illustration and provides Sign in/Sign out via Internet Identity (using the selected authorization component patterns). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OnboardingPage.tsx",
+          "operation": "create",
+          "description": "Create onboarding UI to collect business name + timezone (English labels), call backend createBusiness, and proceed to the dashboard; handle loading and errors. Use shadcn-ui form controls for consistent UX. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AppHeader.tsx",
+          "operation": "create",
+          "description": "Create header/navigation that shows the generated logo, current user display name from getCallerUserProfile, and a logout action that clears React Query cache on sign-out (per selected authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Add a React Query hook that fetches getCallerUserProfile with correct enabled/loading semantics to prevent profile-setup flash, and exposes saveCallerUserProfile mutation. Use the selected authorization component’s recommended query pattern. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useBusinessId.ts",
+          "operation": "create",
+          "description": "Add a small helper hook to derive the owner businessId string for authenticated owner flows (e.g., from Internet Identity principal), used consistently across dashboard queries/mutations. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Owner dashboard UI for managing Services, Availability, Clients, and Appointments (including list + calendar-like view).",
+      "acceptanceCriteria": [
+        "Services screen supports add/edit/delete with at least: name and duration.",
+        "Availability screen supports setting weekly working hours per day (open/close or closed).",
+        "Clients screen supports add/edit/delete with at least: name and optional contact fields.",
+        "Appointments screen shows upcoming appointments and allows cancellation and rescheduling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/dashboard/DashboardLayout.tsx",
+          "operation": "create",
+          "description": "Create authenticated dashboard layout with navigation sections for Services, Availability, Clients, and Appointments, using shadcn-ui layout primitives (e.g., Card, Tabs/Sidebar patterns) for consistency. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/dashboard/ServicesPage.tsx",
+          "operation": "create",
+          "description": "Create Services CRUD screen (add/edit/delete; name + duration required) wired to React Query hooks and backend actor calls; include loading/empty/error states and refetch-on-success. Use shadcn-ui Dialog/Form/Table components as appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/dashboard/ClientsPage.tsx",
+          "operation": "create",
+          "description": "Create Clients CRUD screen (add/edit/delete; name required; optional phone/email) with loading/empty/error states and refetch-on-success behavior. Use shadcn-ui form components for validation and dialogs. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/dashboard/AvailabilityPage.tsx",
+          "operation": "create",
+          "description": "Create weekly working-hours editor UI (per day open/close or closed) and save via setAvailability. Use shadcn-ui inputs/selects and clear English helper text. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/dashboard/AppointmentsPage.tsx",
+          "operation": "create",
+          "description": "Create Appointments screen with (1) upcoming list and (2) a simple calendar-like view (e.g., weekly grid/day columns). Include actions for cancellation and rescheduling via mutations and show validation errors as user-readable messages. Use shadcn-ui Table/Dialog components where helpful. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire dashboard routes into the router (DashboardLayout + nested routes for Services/Availability/Clients/Appointments) and ensure they are guarded behind Internet Identity authentication (selected authorization component guidance). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Public booking page accessible via shareable link that allows service selection, available slot picking, client details entry, and booking confirmation.",
+      "acceptanceCriteria": [
+        "A public booking page exists that is specific to a business (e.g., via route param).",
+        "The public flow shows only available slots (excluding already-booked times and outside working hours).",
+        "Submitting the booking creates an appointment in the backend and shows a confirmation state to the client."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PublicBookingPage.tsx",
+          "operation": "create",
+          "description": "Create a public booking page routed by businessId param that loads business profile/services, lets client choose service/date, fetches available slots, collects name + optional phone/email, submits booking, and shows a confirmation state. Use shadcn-ui form components and consistent loading/empty/error states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the public booking route (e.g., /book/:businessId) so it is accessible without authentication and does not leak dashboard navigation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/dateTime.ts",
+          "operation": "create",
+          "description": "Add date/time utilities for converting between UI date selection and bigint timestamps and formatting times in the business timezone for display in both dashboard and public booking UI. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "React Query data fetching/mutations for all backend resources with robust UI states and refresh behaviors.",
+      "acceptanceCriteria": [
+        "All main screens display a clear loading state while fetching.",
+        "Errors from backend validation (e.g., double-booking) are shown as user-readable messages.",
+        "After successful create/update/delete actions, the affected lists/views update without requiring a manual page refresh."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/queries/useBusinessProfile.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for getBusiness/createBusiness, with enabled conditions (actor availability), loading/error mapping, and refetch-on-success. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useServices.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for services list + service mutations (create/update/delete via available backend capabilities) and ensure post-mutation list consistency (invalidate/refetch or optimistic updates where safe). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useClients.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for clients list + client mutations with proper invalidation and user-friendly error messages. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useAvailability.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for getAvailability/setAvailability and ensure UI reflects saved state immediately via invalidation/refetch. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useAppointments.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for appointments list + appointment mutations used by cancellation/rescheduling flows; map backend traps/errors into readable messages for UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/errorMessages.ts",
+          "operation": "create",
+          "description": "Create a centralized helper to convert unknown backend errors into consistent English UI messages (including validation failures like overlaps/outside working hours) used across all screens. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Configure the React Query client with sensible defaults for this app (e.g., retries for network errors but not for authorization/validation), while keeping the existing providers in place. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Define and apply a cohesive professional theme (non-blue/purple primary) across dashboard and public booking flow.",
+      "acceptanceCriteria": [
+        "All primary buttons, forms, headings, and page layouts follow a consistent design system.",
+        "Primary palette avoids blue/purple as the main brand colors.",
+        "UI looks consistent across dashboard and public booking flow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create global styles and CSS variable theme tokens used by Tailwind/shadcn-ui; set a distinctive primary color that is not blue/purple (e.g., warm green or orange) and ensure typography/spacing defaults look professional. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Apply the design system consistently in the header/navigation (typography, spacing, button styles) using shadcn-ui components and Tailwind theme tokens. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingSignInPage.tsx",
+          "operation": "modify",
+          "description": "Apply the same theme tokens and component styling to the signed-out landing/sign-in screen so it visually matches the dashboard and public booking flow. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/PublicBookingPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the public booking flow uses the same component styles, form patterns, and spacing as the dashboard, relying on the shared theme tokens. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add required generated static images (logo + hero illustration) and render them from frontend/public/assets/generated.",
+      "acceptanceCriteria": [
+        "Generated image files exist under frontend/public/assets/generated with the specified filenames.",
+        "The logo is displayed in the app header/navigation and the hero illustration is used on the landing/sign-in screen (or a marketing/intro section).",
+        "Images are loaded as static assets from the frontend (not fetched from the backend)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset file at frontend/public/assets/generated/app-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/hero-illustration.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated hero illustration asset file at frontend/public/assets/generated/hero-illustration.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/src/components/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Render the static logo image from frontend/public/assets/generated/app-logo.dim_512x512.png in the app header/navigation. Use shadcn-ui layout components if needed. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingSignInPage.tsx",
+          "operation": "modify",
+          "description": "Render the static hero illustration from frontend/public/assets/generated/hero-illustration.dim_1600x900.png on the landing/sign-in screen as the main visual element. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}
